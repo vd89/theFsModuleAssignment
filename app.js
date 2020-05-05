@@ -9,28 +9,23 @@ const readlineSync = require('readline-sync');
 const fs = require('fs');
 const crypt = require('./encrypt');
 
-const fileName = readlineSync.question('Please provide the file names: ');
-
-if (fileName !== '') {
-  const key = readlineSync.question(
-    'Please provide the Key for the Encryption: ',
+const que = () => {
+  const forEncrDecr = readlineSync.question(
+    `Please provide the purpose encrypt('en') or decrypt('de') : `,
   );
-  console.log(key);
-  // console.log(fileName.split(' '));
-  fs.readFile(fileName, (err, data) => {
-    if (err) {
-      throw err;
-    }
-    const nData = data.toString();
-    const newData = crypt(nData, key);
-    // console.log(newData);
-    fs.writeFile('newFile.txt', newData, (err) => {
-      if (err) {
-        throw err;
-      }
-      console.log(`The file is created with encrypted Key 😸 😸`);
-    });
-  });
-} else {
-  console.log(`Please prvide the file name to encrypt 🔥 ✊`);
-}
+  if (forEncrDecr === 'en') {
+    const fileName = readlineSync.question(
+      'Please provide the file names to encrypt: ',
+    );
+    crypt.forEncrypt(fileName);
+    return;
+  } else {
+    const fileName = readlineSync.question(
+      'Please provide the file names to decrypt: ',
+    );
+    crypt.forDecrypt(fileName);
+    return;
+  }
+};
+
+que()
